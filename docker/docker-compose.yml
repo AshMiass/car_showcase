@@ -33,6 +33,9 @@ services:
       build: phpdocker/php-fpm
       container_name: cars-php-fpm
       working_dir: /application
+      depends_on: 
+        - mariadb
+      # command: bin/bin
       environment:
         - APP_ENV=${APP_ENV}
         - APP_SECRET=${APP_SECRET}

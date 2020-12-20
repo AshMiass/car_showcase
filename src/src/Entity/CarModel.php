@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ApiResource(
  *     shortName="cars",
  *     collectionOperations={"get"},
- *     itemOperations={}
+ *     itemOperations={"get"}
  * )
  * @ORM\Entity(repositoryClass=CarModelRepository::class)
  */
@@ -86,14 +86,14 @@ class CarModel
         return $this;
     }
 
-    public function getBrandId(): ?Brand
+    public function getBrand(): ?Brand
     {
         return $this->brand_id;
     }
 
-    public function setBrandId(?Brand $brand_id): self
+    public function setBrand(?Brand $brand): self
     {
-        $this->brand_id = $brand_id;
+        $this->brand_id = $brand;
 
         return $this;
     }

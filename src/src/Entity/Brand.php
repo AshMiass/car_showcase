@@ -24,11 +24,7 @@ class Brand
      */
     private $name;
 
-    /**
-     * @ORM\OneToMany(targetEntity=CarModel::class, mappedBy="brand_id", orphanRemoval=true)
-     */
-    private $carModels;
-
+  
     public function __construct()
     {
         $this->carModels = new ArrayCollection();
@@ -51,33 +47,4 @@ class Brand
         return $this;
     }
 
-    /**
-     * @return Collection|CarModel[]
-     */
-    public function getCarModels(): Collection
-    {
-        return $this->carModels;
-    }
-
-    public function addCarModel(CarModel $carModel): self
-    {
-        if (!$this->carModels->contains($carModel)) {
-            $this->carModels[] = $carModel;
-            $carModel->setBrandId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCarModel(CarModel $carModel): self
-    {
-        if ($this->carModels->removeElement($carModel)) {
-            // set the owning side to null (unless already changed)
-            if ($carModel->getBrandId() === $this) {
-                $carModel->setBrandId(null);
-            }
-        }
-
-        return $this;
-    }
 }
