@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ApiResource(
- *     shortNgitame="cars",
+ *     shortName="cars",
  *     collectionOperations={"get"},
  *     itemOperations={}
  * )
