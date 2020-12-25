@@ -3,19 +3,23 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\CarModelRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource(
- *     shortName="cars",
- *     collectionOperations={"get"},
- *     itemOperations={"get"}
- * )
- * @ORM\Entity(repositoryClass=CarModelRepository::class)
- */
+*  @ApiResource(
+*       shortName="cars",
+*       collectionOperations={"get"},
+*       itemOperations={
+*           "get"={"normalization_context"={"groups"={"car_model:read"}}}, 
+*       },
+*       normalizationContext={"groups"={"car_model:read"}},
+*       denormalizationContext={"groups"={"car_model:write"}}
+* )
+* @ORM\Entity(repositoryClass=App\Repository\CarModelRepository::class)
+*/
 class CarModel
 {
     /**
@@ -27,29 +31,29 @@ class CarModel
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
+     * @Groups({"car_model:read", "car_model:write"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=4)
+     * @Groups({"car_model:read", "car_model:write"})
      */
     private $year;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Brand::class, inversedBy="carModels")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=Brand::class)
+     * @ORM\JoinColumn(nullable=false, name="brand_id", referencedColumnName="id")
+     * @Groups({"car_model:read"})
      */
-    private $brand_id;
+    private $brand;
 
     /**
-     * @ORM\OneToMany(targetEntity=CarModelStock::class, mappedBy="car_model_id", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=CarModelStock::class, mappedBy="car_model")
+     * @Groups({"car_model:read"})
      */
     private $carModelStocks;
 
-    /**
-     * @ORM\OneToMany(targetEntity=ClientRequest::class, mappedBy="car_model_id")
-     */
-    private $clientRequests;
 
     public function __construct()
     {
@@ -85,15 +89,18 @@ class CarModel
 
         return $this;
     }
-
+    
+    /**
+     * @Groups({"car_model:read"})
+     */
     public function getBrand(): ?Brand
     {
-        return $this->brand_id;
+        return $this->brand;
     }
 
     public function setBrand(?Brand $brand): self
     {
-        $this->brand_id = $brand;
+        $this->brand = $brand;
 
         return $this;
     }
@@ -119,7 +126,6 @@ class CarModel
     public function removeCarModelStock(CarModelStock $carModelStock): self
     {
         if ($this->carModelStocks->removeElement($carModelStock)) {
-            // set the owning side to null (unless already changed)
             if ($carModelStock->getCarModelId() === $this) {
                 $carModelStock->setCarModelId(null);
             }
@@ -128,33 +134,21 @@ class CarModel
         return $this;
     }
 
-    /**
-     * @return Collection|ClientRequest[]
-     */
-    public function getClientRequests(): Collection
-    {
-        return $this->clientRequests;
-    }
+    // /**
+    //  * @return Collection|ClientRequest[]
+    //  */
+    // public function getClientRequests(): Collection
+    // {
+    //     return $this->clientRequests;
+    // }
 
-    public function addClientRequest(ClientRequest $clientRequest): self
-    {
-        if (!$this->clientRequests->contains($clientRequest)) {
-            $this->clientRequests[] = $clientRequest;
-            $clientRequest->setCarModelId($this);
-        }
+    // public function addClientRequest(ClientRequest $clientRequest): self
+    // {
+    //     if (!$this->clientRequests->contains($clientRequest)) {
+    //         $this->clientRequests[] = $clientRequest;
+    //         $clientRequest->setCarModel($this);
+    //     }
 
-        return $this;
-    }
-
-    public function removeClientRequest(ClientRequest $clientRequest): self
-    {
-        if ($this->clientRequests->removeElement($clientRequest)) {
-            // set the owning side to null (unless already changed)
-            if ($clientRequest->getCarModelId() === $this) {
-                $clientRequest->setCarModelId(null);
-            }
-        }
-
-        return $this;
-    }
+    //     return $this;
+    // }
 }

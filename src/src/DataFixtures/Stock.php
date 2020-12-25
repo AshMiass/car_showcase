@@ -10,10 +10,12 @@ use App\Entity\CarModelStock;
 
 class Stock extends Fixture implements DependentFixtureInterface
 {
-    protected $rels = [Cars::RELS1, Cars::RELS2, Cars::RELS3];
+    protected $cars = [];
+
     public function load(ObjectManager $manager)
     {
         
+        $this->cars = $manager->getRepository('App\Entity\CarModel')->findAll();
         for($i = 0; $i < 10; $i++){
             $manager->persist($this->generateEntity());
         }
@@ -23,8 +25,9 @@ class Stock extends Fixture implements DependentFixtureInterface
 
     protected function generateEntity(): CarModelStock
     {
+        
         $entity = new CarModelStock();
-        $entity->setCarModelId($this->getReference($this->rels[rand(0,2)]));
+        $entity->setCarModel($this->cars[rand(0,count($this->cars)-1)]);
         $entity->setInStock(rand(1,100));
         $entity->setPrice(rand(1000000,2000000));
         return $entity;

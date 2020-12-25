@@ -3,16 +3,20 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\ClientRequestRepository;
+use DateTimeImmutable;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
- *     shortName="request",
- *     collectionOperations={},
- *     itemOperations={"get","put"}
+ *      shortName="request",
+ *      collectionOperations={"get","post"},
+ *      itemOperations={"get","put"},
+ *      normalizationContext={"groups"={"request:read"}},
+ *      denormalizationContext={"groups"={"request:write"}},
  * )
- * @ORM\Entity(repositoryClass=ClientRequestRepository::class)
+ * @ORM\Entity(repositoryClass=App\Repository\ClientRequestRepository::class)
  */
 class ClientRequest
 {
@@ -25,26 +29,59 @@ class ClientRequest
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\NotBlank()
+     * @var DateTime
      */
     private $request_date;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="clientRequests")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=CarModel::class)
+     * @ORM\JoinColumn(nullable=false, name="car_model_id", referencedColumnName="id")
+     * @Assert\NotBlank()
      */
-    private $client_id;
+    private $car_model;
 
     /**
-     * @ORM\ManyToOne(targetEntity=CarModel::class, inversedBy="clientRequests")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="string", length=100)
+     * @Assert\Length(
+     *     min=2,
+     *     max=100,
+     *     maxMessage="Максимальная длина имени не должна превышать 100 символов",
+     *     minMessage="Имя должно быть длинее 1 буквы"
+     * )
      */
-    private $car_model_id;
+    private $client_name;
 
+    /**
+     * @ORM\Column(type="string", length=10)
+     * @Assert\Regex(
+     *     pattern="/\d{10}/",
+     *     message="Номер телефона должен состоять из 10 цифр"
+     * )
+     */
+    private $client_phone;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     * @Assert\Email(
+     *     message = "Email '{{ value }}' не корректный."
+     * )
+     */
+    private $client_email;
+
+    public function __construct()
+    {
+        $this->request_date = new \DateTimeImmutable();
+    }
+  
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @Groups({"request:read"})
+     */
     public function getRequestDate(): ?\DateTimeInterface
     {
         return $this->request_date;
@@ -57,26 +94,74 @@ class ClientRequest
         return $this;
     }
 
-    public function getClientId(): ?Client
+    /**
+     * @Groups({"request:read"})
+     */
+    public function getCarModel(): ?CarModel
     {
-        return $this->client_id;
+        return $this->car_model;
     }
 
-    public function setClientId(?Client $client_id): self
+    /**
+     * @Groups({"request:write"})
+     */
+    public function setCarModel(?CarModel $car_model): self
     {
-        $this->client_id = $client_id;
+        $this->car_model = $car_model;
 
         return $this;
     }
 
-    public function getCarModelId(): ?CarModel
+    /**
+     * @Groups({"request:read"})
+     */
+    public function getClientName(): ?string
     {
-        return $this->car_model_id;
+        return $this->client_name;
     }
 
-    public function setCarModelId(?CarModel $car_model_id): self
+    /**
+     * @Groups({"request:write"})
+    */
+    public function setClientName(string $client_name): self
     {
-        $this->car_model_id = $car_model_id;
+        $this->client_name = $client_name;
+
+        return $this;
+    }
+
+    /**
+     * @Groups({"request:read"})
+     */
+    public function getClientPhone(): ?string
+    {
+        return $this->client_phone;
+    }
+
+    /**
+     * @Groups({"request:write"})
+     */
+    public function setClientPhone(string $client_phone): self
+    {
+        $this->client_phone = $client_phone;
+
+        return $this;
+    }
+
+    /**
+     * @Groups({"request:read"})
+     */
+    public function getClientEmail(): ?string
+    {
+        return $this->client_email;
+    }
+
+    /**
+     * @Groups({"request:write"})
+     */
+    public function setClientEmail(string $client_email): self
+    {
+        $this->client_email = $client_email;
 
         return $this;
     }

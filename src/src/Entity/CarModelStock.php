@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\CarModelStockRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass=CarModelStockRepository::class)
+ * @ORM\Entity(repositoryClass=App\Repository\CarModelStockRepository::class)
  */
 class CarModelStock
 {
@@ -29,15 +29,20 @@ class CarModelStock
 
     /**
      * @ORM\ManyToOne(targetEntity=CarModel::class, inversedBy="carModelStocks")
-     * @ORM\JoinColumn(nullable=false)
      */
-    private $car_model_id;
+    private $car_model;
 
+    /**
+     * @Groups({"car_model:read"})
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @Groups({"car_model:read"})
+     */
     public function getPrice(): ?string
     {
         return $this->price;
@@ -50,6 +55,9 @@ class CarModelStock
         return $this;
     }
 
+    /**
+     * @Groups({"car_model:read"})
+     */
     public function getInStock(): ?int
     {
         return $this->inStock;
@@ -62,14 +70,14 @@ class CarModelStock
         return $this;
     }
 
-    public function getCarModelId(): ?CarModel
+    public function getCarModel(): ?CarModel
     {
-        return $this->car_model_id;
+        return $this->car_model;
     }
 
-    public function setCarModelId(?CarModel $car_model_id): self
+    public function setCarModel(?CarModel $car_model): self
     {
-        $this->car_model_id = $car_model_id;
+        $this->car_model = $car_model;
 
         return $this;
     }

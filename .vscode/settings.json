@@ -1,0 +1,15 @@
+{
+    "php.suggest.basic": false,
+    "php.validate.executablePath": "/usr/local/bin/php",
+    "editor.quickSuggestions": { "comments": true },
+    "intelephense.files.exclude": [
+        "**/.git/**",
+        "**/.svn/**",
+        "**/.hg/**",
+        "**/CVS/**",
+        "**/.DS_Store/**",
+        "**/node_modules/**",
+        "**/bower_components/**",
+        "**/vendor/**/{Test,test,Tests,tests}/**/*Test.php"
+      ],
+}
