@@ -30,7 +30,7 @@ class ClientRequest
     /**
      * @ORM\Column(type="date")
      * @Assert\NotBlank()
-     * @var DateTime
+     * @var \DateTime
      */
     private $request_date;
 

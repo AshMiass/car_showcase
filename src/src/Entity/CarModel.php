@@ -89,7 +89,7 @@ class CarModel
 
         return $this;
     }
-    
+
     /**
      * @Groups({"car_model:read"})
      */
@@ -117,7 +117,7 @@ class CarModel
     {
         if (!$this->carModelStocks->contains($carModelStock)) {
             $this->carModelStocks[] = $carModelStock;
-            $carModelStock->setCarModelId($this);
+            $carModelStock->setCarModel($this);
         }
 
         return $this;
@@ -126,8 +126,8 @@ class CarModel
     public function removeCarModelStock(CarModelStock $carModelStock): self
     {
         if ($this->carModelStocks->removeElement($carModelStock)) {
-            if ($carModelStock->getCarModelId() === $this) {
-                $carModelStock->setCarModelId(null);
+            if ($carModelStock->getCarModel() === $this) {
+                $carModelStock->setCarModel(null);
             }
         }
 
