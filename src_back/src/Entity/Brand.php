@@ -8,7 +8,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
- * @ORM\Entity(repositoryClass=BrandRepository::class)
+ * @ORM\Entity(repositoryClass=App\Repository\BrandRepository::class)
  */
 class Brand
 {

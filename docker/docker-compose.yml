@@ -3,14 +3,11 @@
 ###############################################################################
 version: "3.1"
 services:
-
     mariadb:
       image: mariadb:10.4
       restart: always
       container_name: cars-mariadb
       working_dir: /application
-      # volumes:
-      #   - .:/application
       environment:
         - MYSQL_ROOT_PASSWORD=${DATABASE_ROOT_PASSWORD}
         - MYSQL_DATABASE=${DATABASE_NAME}
@@ -24,15 +21,27 @@ services:
       container_name: cars-webserver
       working_dir: /application
       volumes:
-          - ../src:/application
+          - ../logs/nginx:/var/log/nginx:cached
+          - ../src_back:/application/back
+          - ../src_front:/application/frontend
           - ./phpdocker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
       ports:
        - "${APP_PORT}:80"
+       - "8080:8080"
+
+    node:
+      build: phpdocker/node
+      container_name: cars-node
+      working_dir: /application/frontend
+      ports:
+       - "4200:4200"
+      volumes:
+        - ../src_front:/application/frontend
 
     php-fpm:
       build: phpdocker/php-fpm
       container_name: cars-php-fpm
-      working_dir: /application
+      working_dir: /application/back
       depends_on: 
         - mariadb
       # command: bin/bin
@@ -41,19 +50,5 @@ services:
         - APP_SECRET=${APP_SECRET}
         - DATABASE_URL=mysql://${DATABASE_USER}:${DATABASE_PASSWORD}@mariadb:${DATABASE_PORT}/${DATABASE_NAME}?serverVersion=${DATABASE_SERVER_VERSION}&charset=utf8
       volumes:
-        - ../src:/application
+        - ../src_back:/application/back
         - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.4/fpm/conf.d/99-overrides.ini
-
-    # mercure:
-    #   # In production, you may want to use the managed version of Mercure, https://mercure.rocks
-    #   image: dunglas/mercure
-    #   environment:
-    #     # You should definitely change all these values in production
-    #     - JWT_KEY=${MERCURE_JWT_TOKEN} # You have to change MERCURE_JWT_TOKEN in src/.env when you change this. You can put the old value of MERCURE_JWT_TOKEN into the debugger on https://jwt.io/ and put the new value of JWT_KEY in the "secret" field to obtain the new encoded value for MERCURE_JWT_TOKEN
-    #     - ALLOW_ANONYMOUS=1
-    #     - CORS_ALLOWED_ORIGINS=*
-    #     - PUBLISH_ALLOWED_ORIGINS=http://localhost:1337 https://localhost:1338
-    #     - DEMO=1
-    #   ports:
-    #     - "1337:80"
-
