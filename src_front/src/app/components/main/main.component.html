@@ -1,0 +1,21 @@
+<div *ngIf="cars$ | withLoading | async as obs">
+    <ng-template [ngIf]="obs.value">
+        <div class="wrapper">
+            <cars-list [cars]="obs.value" (onSelectCar)="selectCar($event)" [hidden]="selected_car"></cars-list>
+        </div>
+    </ng-template>
+    <ng-template [ngIf]="obs.error">
+        <mat-card>
+            Во время загрузки данных произошла ошибка. Проверьте соединение с интерентом и попробуйте обновить страницу
+        </mat-card>
+    </ng-template>
+    <ng-template [ngIf]="obs.loading">
+        <mat-card>
+            Загрузка...
+        </mat-card>
+    </ng-template>
+</div>
+
+
+
+<cars-request [car]="selected_car" (onCancel)="clearSelected()" (onAccept)="accept($event)" *ngIf="selected_car"></cars-request>

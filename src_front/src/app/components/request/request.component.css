@@ -1,11 +1,11 @@
 .request_content{
     padding-right: 100px;
     padding-top: 80px;
-    max-width: 50%;
+    max-width: 55%;
     margin: 0 auto;
 }
 .close_wrapper{
-    max-width: 50%;
+    max-width: 60%;
     margin: 0 auto;
 }
 .close_btn{
@@ -19,6 +19,13 @@
 .close_btn:hover{
     color:gray;
     cursor: pointer;
+}
+button{
+    border: 0;
+}
+button.accept_btn:disabled{
+    background-color: #aad4f1;
+    cursor: not-allowed;
 }
 .accept_btn{
     background-color: #007edb;
@@ -39,7 +46,7 @@
     padding-bottom: 40px;
 }
 .description{
-    font-size: 1.5em;
+    font-size: 1.25em;
     line-height: 1em;
     color: gray;
     font-weight: lighter;
@@ -51,13 +58,17 @@ input.field{
     border-radius: 0;
     border: 1px solid #dad4d4;
     width: 100%;
+    font-size: 1.5em;
 }
 .accept_description{
     color: gray;
     font-weight: lighter;
 }
-a{
+.link{
     color: #2892e0;
+}
+.link:hover{
+    cursor: pointer;
 }
 .request_footer{
     padding: 40px 0px;
