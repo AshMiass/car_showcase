@@ -3,7 +3,7 @@
 
 ### Поочередно запустить следующие команды (из консоли, в родительской папке где будет развернут проект)
 1. git clone https://github.com/AshMiass/car_showcase.git
-2. cd docker
+2. cd cd car_showcase/docker/
 3. docker-compose run node npm install
 4. docker-compose run php-fpm composer install
 4.1 Возможно понадобиться поменять права на созданые из контейнера файлы (linux): sudo chmod 777 -R ../
