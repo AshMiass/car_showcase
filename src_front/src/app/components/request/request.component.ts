@@ -17,7 +17,8 @@ export class RequestComponent implements OnInit {
       this.requestForm = this.fb.group({
           clientName: ['', [Validators.minLength(2), Validators.required]],
           clientPhone: ['', [Validators.pattern(/[0-9]{10}/gm), Validators.required]],
-          clientEmail: ['', [Validators.email, Validators.required]]
+          clientEmail: ['', [Validators.email, Validators.required]],
+          accepted: [false, Validators.requiredTrue]
       });
   }
   onSubmit(formValues){

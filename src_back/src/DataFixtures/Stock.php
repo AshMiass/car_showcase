@@ -27,7 +27,7 @@ class Stock extends Fixture implements DependentFixtureInterface
     {
         
         $entity = new CarModelStock();
-        $entity->setCarModel($this->cars[rand(0,count($this->cars)-1)]);
+        $entity->setCarModel($this->cars[rand(1,count($this->cars)-1)]);
         $entity->setInStock(rand(1,100));
         $entity->setPrice(rand(1000000,2000000));
         return $entity;

@@ -1,5 +1,10 @@
-<div *ngFor="let car of cars">
-    <div (click)="onSelectCar.emit(car)">
-        {{ car.name }} | {{ car?.brand.name}} | {{ car.totalInStock}} | {{ car.minPrice}}
+<div *ngFor="let brand of cars | groupbrand | keyvalue">
+    <h1 class="brand">
+        <span class="brand_name">{{ brand.key }}</span> 
+        <span class="brand_in_stock">{{ brand.value.inStock }}</span>
+        <span class="brand_all_models">Все модели {{brand.key}}</span>
+    </h1>
+    <div class="cards-row">
+        <car-card *ngFor="let car of brand.value.cars" (click)="onSelectCar.emit(car)" [car]="car" class="card"></car-card>
     </div>
 </div>

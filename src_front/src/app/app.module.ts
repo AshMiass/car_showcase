@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { HttpClientModule } from "@angular/common/http";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,10 +11,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CarMaterialModule } from "./material.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from '@angular/router';
-
+import { NgPipesModule } from 'ngx-pipes';
+import { BrandPipe } from "./pipes/brand.pipe";
+import { CarCardComponent } from "./components/car-card/car-card.component";
+import { registerLocaleData } from '@angular/common';
+import localeRu from '@angular/common/locales/ru';
+registerLocaleData(localeRu, 'ru');
 
 @NgModule({
   imports: [
+    NgPipesModule,
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
@@ -25,13 +31,16 @@ import { RouterModule } from '@angular/router';
     RouterModule
   ],
   providers: [
-    ApiService
+    ApiService,
+    { provide: LOCALE_ID, useValue: 'ru' }
   ],
   declarations: [
     AppComponent,
     WrapperListComponent,
     ListComponent,
-    RequestComponent
+    RequestComponent,
+    BrandPipe,
+    CarCardComponent
   ],
   bootstrap: [AppComponent]
 })

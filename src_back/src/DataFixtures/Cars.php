@@ -19,12 +19,14 @@ class Cars extends Fixture implements DependentFixtureInterface
         $entity->setName('X1');
         $entity->setYear('2020');
         $entity->setBrand($brand);
+        $entity->setImage('/assets/cars/x1.webp');
         $manager->persist($entity);
 
         $entity = new CarModel();
         $entity->setName('X2');
         $entity->setYear('2020');
         $entity->setBrand($brand);
+        $entity->setImage('/assets/cars/x2.webp');
         $manager->persist($entity);
 
 
@@ -32,6 +34,7 @@ class Cars extends Fixture implements DependentFixtureInterface
         $entity->setName('X3');
         $entity->setYear('2020');
         $entity->setBrand($brand);
+        $entity->setImage('/assets/cars/x3.webp');
         $manager->persist($entity);
 
 

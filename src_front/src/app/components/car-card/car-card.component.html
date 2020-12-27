@@ -1,0 +1,6 @@
+<div class="card-content">
+    <img [src]="car.image">
+    <div class="model_in_stock">{{car.totalInStock}} авто</div>
+    <div class="model_name">{{car.name}}</div>
+    <div class="model_price">от {{ car.minPrice | currency:'RUB':'symbol':'1.0':'ru'}}</div>
+</div>

@@ -1,0 +1,21 @@
+.card-content{
+    padding: 0px 10px 20px 20px;
+    line-height: 2.4em;
+}
+.card-content > img{
+    display:block;
+    margin:auto;
+}
+.model_in_stock{
+    color: #919191;
+    font-size: 1em;
+    font-weight: lighter;
+}
+.model_name{
+    font-weight: bold;
+    font-size: 1.2em;
+}
+.model_price{
+    font-weight: normal;
+    font-size: 2em;
+}
