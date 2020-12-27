@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Car } from 'src/app/interface/car';
 
 @Component({
   selector: 'cars-list',
@@ -6,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./list.component.css']
 })
 export class ListComponent implements OnInit {
-
+  @Input() cars: Car[] 
+  @Output() onSelectCar = new EventEmitter()
   constructor() { }
-
   ngOnInit(): void {
+
+    
   }
 
 }

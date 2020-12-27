@@ -1,0 +1,3 @@
+<!-- <router-outlet></router-outlet> -->
+<cars-list [cars]="cars$ | async" (onSelectCar)="selectCar($event)" [hidden]="selected_car"></cars-list>
+<cars-request [car]="selected_car" (onCancel)="clearSelected()" (onAccept)="accept($event)" *ngIf="selected_car"></cars-request>

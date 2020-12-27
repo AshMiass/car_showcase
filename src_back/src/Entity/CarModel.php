@@ -50,7 +50,6 @@ class CarModel
 
     /**
      * @ORM\OneToMany(targetEntity=CarModelStock::class, mappedBy="car_model")
-     * @Groups({"car_model:read"})
      */
     private $carModelStocks;
 
@@ -60,7 +59,9 @@ class CarModel
         $this->carModelStocks = new ArrayCollection();
         $this->clientRequests = new ArrayCollection();
     }
-
+    /**
+     * @Groups({"car_model:read"})
+    */
     public function getId(): ?int
     {
         return $this->id;
@@ -106,6 +107,32 @@ class CarModel
     }
 
     /**
+     * @Groups({"car_model:read"})
+     */
+    public function getTotalInStock(): int
+    {
+        $sum = 0;
+        foreach($this->getCarModelStocks() as $stock){
+            $sum += $stock->getInStock();
+        }
+        return $sum;
+    }
+
+     /**
+     * @Groups({"car_model:read"})
+     */
+    public function getMinPrice(): float
+    {
+        $stockCollection = $this->getCarModelStocks();
+        if(!$stockCollection->count()) return 0;
+        $min = $stockCollection->get(0)->getPrice();
+        foreach($this->getCarModelStocks() as $stock){
+            $min = min($min, (float)$stock->getPrice());
+        }
+        return $min;
+    }
+
+    /**
      * @return Collection|CarModelStock[]
      */
     public function getCarModelStocks(): Collection
@@ -134,21 +161,4 @@ class CarModel
         return $this;
     }
 
-    // /**
-    //  * @return Collection|ClientRequest[]
-    //  */
-    // public function getClientRequests(): Collection
-    // {
-    //     return $this->clientRequests;
-    // }
-
-    // public function addClientRequest(ClientRequest $clientRequest): self
-    // {
-    //     if (!$this->clientRequests->contains($clientRequest)) {
-    //         $this->clientRequests[] = $clientRequest;
-    //         $clientRequest->setCarModel($this);
-    //     }
-
-    //     return $this;
-    // }
 }

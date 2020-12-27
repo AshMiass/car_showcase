@@ -1,0 +1,45 @@
+  <form [formGroup]="requestForm" (ngSubmit)="onSubmit(requestForm.value)">
+    <div>
+      <label for="clientName">
+        Ваше имя*
+      </label>
+      <input id="clientName" type="text" formControlName="clientName" matInput>
+      <mat-error *ngIf="formControls.clientName?.errors?.minlength">
+        Ожидается имя длинее 1 буквы
+      </mat-error>
+      <mat-error *ngIf="formControls.clientName?.errors?.required && formControls.clientName.touched">
+        Пожалуйста заполните свое имя
+      </mat-error>
+    </div>
+  
+    <div>
+      <label for="clientPhone">
+        Номер телефона*
+      </label>
+      <input id="clientPhone" type="text" formControlName="clientPhone" matInput>
+      <mat-error *ngIf="formControls.clientPhone?.errors?.pattern">
+        Пожалуйста верный номер телефона
+      </mat-error>
+      <mat-error *ngIf="formControls.clientPhone?.errors?.required && formControls.clientPhone.touched">
+        Пожалуйста введите номер телефона
+      </mat-error>
+    </div>
+
+    <div>
+        <label for="clientEmail">
+            Email*
+        </label>
+        <input id="clientEmail" type="email" formControlName="clientEmail" matInput>
+        <mat-error *ngIf="formControls.clientEmail?.errors?.email">
+            Пожалуйста введите корректный email
+        </mat-error>
+        <mat-error *ngIf="formControls.clientEmail?.errors?.required && formControls.clientEmail.touched">
+          Пожалуйста введите email
+        </mat-error>
+    </div>
+    <mat-hint>*Обязательные к заполнению поля</mat-hint>
+    <div>
+      <button class="button" type="submit" mat-button [disabled]="!car || !requestForm.valid">Отправить</button>
+      <button (click)="onCancel.emit($event)" [disabled]="!car" mat-button>Отмена</button>
+    </div>
+  </form>

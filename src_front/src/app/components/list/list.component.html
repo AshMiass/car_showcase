@@ -1,1 +1,5 @@
-<p>list works!</p>
+<div *ngFor="let car of cars">
+    <div (click)="onSelectCar.emit(car)">
+        {{ car.name }} | {{ car?.brand.name}} | {{ car.totalInStock}} | {{ car.minPrice}}
+    </div>
+</div>

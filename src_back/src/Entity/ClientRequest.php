@@ -29,7 +29,7 @@ class ClientRequest
 
     /**
      * @ORM\Column(type="date")
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Это поле не может быть пустым")
      * @var \DateTime
      */
     private $request_date;
@@ -37,12 +37,13 @@ class ClientRequest
     /**
      * @ORM\ManyToOne(targetEntity=CarModel::class)
      * @ORM\JoinColumn(nullable=false, name="car_model_id", referencedColumnName="id")
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Это поле не может быть пустым")
      */
     private $car_model;
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message="Это поле не может быть пустым")
      * @Assert\Length(
      *     min=2,
      *     max=100,
@@ -54,8 +55,9 @@ class ClientRequest
 
     /**
      * @ORM\Column(type="string", length=10)
+     * @Assert\NotBlank(message="Это поле не может быть пустым")
      * @Assert\Regex(
-     *     pattern="/\d{10}/",
+     *     pattern="/^\d{10}$/",
      *     message="Номер телефона должен состоять из 10 цифр"
      * )
      */
@@ -63,6 +65,7 @@ class ClientRequest
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank(message="Это поле не может быть пустым")
      * @Assert\Email(
      *     message = "Email '{{ value }}' не корректный."
      * )
@@ -86,7 +89,7 @@ class ClientRequest
     {
         return $this->request_date;
     }
-
+    
     public function setRequestDate(\DateTimeInterface $request_date): self
     {
         $this->request_date = $request_date;

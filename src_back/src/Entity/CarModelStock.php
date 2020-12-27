@@ -32,17 +32,11 @@ class CarModelStock
      */
     private $car_model;
 
-    /**
-     * @Groups({"car_model:read"})
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @Groups({"car_model:read"})
-     */
     public function getPrice(): ?string
     {
         return $this->price;
@@ -55,9 +49,7 @@ class CarModelStock
         return $this;
     }
 
-    /**
-     * @Groups({"car_model:read"})
-     */
+
     public function getInStock(): ?int
     {
         return $this->inStock;
