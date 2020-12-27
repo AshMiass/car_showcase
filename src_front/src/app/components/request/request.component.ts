@@ -1,19 +1,22 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Car } from 'src/app/interface/car';
 import { ClientRequest } from 'src/app/interface/request';
+import { PersonalDataProcessingPolicyComponent } from '../personal-data/data-processing-policy/data-processing-policy.component';
+import { PersonalDataProcessAcceptComponent } from '../personal-data/process-accept/process-accept.component';
 
 @Component({
   selector: 'cars-request',
   templateUrl: './request.component.html',
   styleUrls: ['./request.component.css']
 })
-export class RequestComponent implements OnInit {
+export class RequestComponent {
   @Input() car: Car
   @Output() onCancel = new EventEmitter()
   @Output() onAccept = new EventEmitter()
   public requestForm: FormGroup
-  constructor(private fb: FormBuilder) { 
+  constructor(private fb: FormBuilder, public dialog: MatDialog) { 
       this.requestForm = this.fb.group({
           clientName: ['', [Validators.minLength(2), Validators.required]],
           clientPhone: ['', [Validators.pattern(/[0-9]{10}/gm), Validators.required]],
@@ -33,7 +36,11 @@ export class RequestComponent implements OnInit {
   get formControls(): any {
     return this.requestForm['controls'];
  }
-  ngOnInit(): void {
-  }
+ openPersonalDataProcessingPolicyDialog(){
+      this.dialog.open(PersonalDataProcessingPolicyComponent, {})
+ }
+ openPersonalDataProcessAcceptDialog(){
+      this.dialog.open(PersonalDataProcessAcceptComponent, {})
+ }
 
 }

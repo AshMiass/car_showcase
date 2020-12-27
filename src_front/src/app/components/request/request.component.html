@@ -40,8 +40,8 @@
         <div class="input_wrapper">
             <input id="accepted" type="checkbox" formControlName="accepted"> 
             <span class="accept_description">
-              Даю <a href="">согласие на обработку персональных данных</a> и соглашаюсь с 
-              <a href="">политикой обработки персональных данных</a>
+              Даю <span class="link" (click)="openPersonalDataProcessingPolicyDialog()">согласие на обработку персональных данных</span> и соглашаюсь с 
+              <span class="link"  (click)="openPersonalDataProcessAcceptDialog()">политикой обработки персональных данных</span>
             </span>
         </div>
         <div class="request_footer">

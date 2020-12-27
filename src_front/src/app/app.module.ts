@@ -4,23 +4,27 @@ import { HttpClientModule } from "@angular/common/http";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ApiService } from './service/api.service';
-import { WrapperListComponent } from './components/wrapper/list/wrapperlist.component';
+import { MainComponent } from './components/main/main.component';
 import { ListComponent } from './components/list/list.component';
 import { RequestComponent } from './components/request/request.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CarMaterialModule } from "./material.module";
+// import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from '@angular/router';
-import { NgPipesModule } from 'ngx-pipes';
 import { BrandPipe } from "./pipes/brand.pipe";
+import { WithLoadingPipe } from "./pipes/withLoading.pipe";
 import { CarCardComponent } from "./components/car-card/car-card.component";
 import { registerLocaleData } from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
+import { ThanksComponent } from './components/thanks/thanks.component';
+import { MatDialogModule } from "@angular/material/dialog";
+import { PersonalDataProcessAcceptComponent } from "./components/personal-data/process-accept/process-accept.component";
+import { PersonalDataProcessingPolicyComponent } from "./components/personal-data/data-processing-policy/data-processing-policy.component";
 registerLocaleData(localeRu, 'ru');
 
 @NgModule({
   imports: [
-    NgPipesModule,
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
@@ -28,19 +32,25 @@ registerLocaleData(localeRu, 'ru');
     CarMaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    MatDialogModule
   ],
+  // entryComponents:[ThanksComponent],
   providers: [
     ApiService,
     { provide: LOCALE_ID, useValue: 'ru' }
   ],
   declarations: [
     AppComponent,
-    WrapperListComponent,
+    MainComponent,
     ListComponent,
     RequestComponent,
     BrandPipe,
-    CarCardComponent
+    WithLoadingPipe,
+    CarCardComponent,
+    ThanksComponent,
+    PersonalDataProcessAcceptComponent,
+    PersonalDataProcessingPolicyComponent
   ],
   bootstrap: [AppComponent]
 })
